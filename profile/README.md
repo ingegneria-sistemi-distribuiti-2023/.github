@@ -4,7 +4,7 @@ Student project that aims to create a set of microservices that simulate an onli
 
 Some logic functions have not been implemented, since considered not necessary to reach the project's goal like: payment management, game validity check at the time of the place-bet, payment acquired, ticket status check once the matches are over and possible top-up on the account.
 
-Each database and server will have a dedicated repository within this organization. The report, in Italian, is available [here](https://duckduckgo.com).
+Each database and server will have a dedicated repository within this organization. The report, in Italian, is available [here](https://github.com/ingegneria-sistemi-distribuiti-2023/.github/blob/main/report.pdf).
 
 ## Microservizi:
 
