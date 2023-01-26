@@ -1,6 +1,10 @@
 # Gamble platform with microservices
 
-Il progetto proposto mira a realizzare un sistema per la gestione di una piattaforma di gioco on-line, con particolare focus sulle scommesse sportive, con gestione della sessione degli utenti. Inoltre, sarà in grado di gestire le quote per gli eventi, calcolare le vincite degli utenti e gestire il processo di pagamento delle vincite.
+Student project that aims to create a set of microservices that simulate an online gaming system particularly focused on football bets. The system was implemented using Spring Boot v 3.0.0. The aim of the project was to implement best practices for the development and deployment of a product, following the practices introduced in the Distributed Systems Engineering course (LM-18, MSc. Data Science, University of Catania).
+
+Some logic functions have not been implemented, since considered not necessary to reach the project's goal like: payment management, game validity check at the time of the place-bet, payment acquired, ticket status check once the matches are over and possible top-up on the account.
+
+Each database and server will have a dedicated repository within this organization. The report, in Italian, is available [here](https://duckduckgo.com).
 
 ## Microservizi:
 
@@ -12,53 +16,45 @@ Available at port `8080`
 
 Public:
 
-- [POST]: `/app/public/register`: creazione di un utente
-- [POST]: `/app/public/login`: login di un utente
+- [POST]: `/app/public/register`: create a user
+- [POST]: `/app/public/login`: login, return a jwt if authenticated
+- [GET]: `/app/public/match`: list of available matches
+- [GET]: `/app/public/match/{id}`: detail of a match, given `id`
+- [GET]: `/app/public/team/{id}`: history of a team's matches, given team's `id`
 
-- [GET]: `/app/public/match`: ritorna la lista di partite giocabili (TODO: al momento non sono filtrate)
-- [GET]: `/app/public/match/{id}`: ritorna dettaglio della partita
-- [GET]: `/app/public/team/{id}`: ritorna storico partite dato l'id della squadra 
 
+Private (requires JWT ):
 
-Private (requires JWT / user role ):
-
-- [POST]: `/app/gamble/add`: aggiunge una partita alla schedina (usa api gestite da sessione)
-- [POST]: `/app/gamble/remove`: rimuove una partita alla schedina (usa api gestite da sessione)
-- [POST]: `/app/gamble/place-bet`: effettua una richiesta per giocare la schedina salvata in sessione (usa api gestite da sessione)
-- [POST]: `/app/user/deposit`: permette di ricaricare il conto di un utente
-
-- With <b>Session-Service</b>
-
-- [GET]: `/app/placedbet/{id}`: ritorna dettaglio schedina giocata
-- [GET]: `/app/placedbet/user/{id}`: ritorna elenco schedine giocate da un utente
+- [POST]: `/app/gamble/add`: add a match to an existing bet or create an empty one (call session-service using `RestTemplate`)
+- [POST]: `/app/gamble/remove`: remove a match given a `betId` (call session-service using `RestTemplate`)
+- [POST]: `/app/gamble/place-bet`: make a request to an existing placing bet, if user has not sufficient balance returns an error (call session-service, authentication service api using `RestTemplate`)
+- [POST]: `/app/user/deposit`: recharge a user's balance
+- [GET]: `/app/placedbet/{id}`: return bet's detail given `id`
+- [GET]: `/app/placedbet/user/{id}`: list of all bet played by user given `id`
 
 
 #### Unit tests
-- Testare che un utente non possa creare più di un numero massimo di schedine salvate in sessione
+TODO (?)
 
 ### Authentication service
 
 Available at port `8082`
 
-Private (possono essere chiamate solo da Application Service):
+Private (require only `Secret-Key`)
 
-- [POST]: `/auth/jwt/register`: crea un utente e ritorna la relativa jwt
-- [POST]: `/auth/jwt/login`: ritorna un jwt se le credenziali sono corrette
+- [POST]: `/auth/jwt/register`: create a user and return his `Bearer Token JWT`
+- [POST]: `/auth/jwt/login`: return `Bearer Token JWT` if username and password match
 
 Private (requires administrator role):
 
-- [GET]: `/auth/user/`: ritorna la lista di un utente
-- [GET]: `/auth/user/{id}`: ritorna il dettaglio di uno specifico utente con relativo balance e storico transazioni
-- [POST]: `/auth/transaction/deposit`: permette di ricaricare il conto di un utente
-- [POST]: `/auth/transaction/withdraw`: permette di prelevare i soldi dal conto di un utente (giocare schedina)
+- [GET]: `/auth/user/`: list of users
+- [GET]: `/auth/user/{id}`: return user's detail (balance and transactions) given his `id`
+- [POST]: `/auth/transaction/deposit`: allows to recharge a user's balance 
+- [POST]: `/auth/transaction/withdraw`: allows to withdraw from user's balance
 
 #### Unit tests
 
-- Creazione di un utente
-- Abilitazione/Disabilitazione di un utente
-- Test case corretta lista di transazioni associate
-- Creazione di utente con relativo login
-- Test ricarica di un account
+TODO (?)
 
 #### Authentication database `authdb:23306`
 
