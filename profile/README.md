@@ -10,7 +10,8 @@ Each database and server will have a dedicated repository within this organizati
 
 ### Application service
 
-Available at port `8080`
+- Available at port `8080`
+- Swagger: http://localhost:8080/swagger-ui/index.html#/
 
 #### API:
 
@@ -36,14 +37,17 @@ Private (requires JWT ):
 
 ### Authentication service
 
-Available at port `8082`
+- Available at port `8082`
+- Swagger: http://localhost:8082/swagger-ui/index.html#/
 
-Private (require only `Secret-Key`)
+#### API:
+
+Private (require `Secret-Key`)
 
 - [POST]: `/auth/jwt/register`: create a user and return his `Bearer Token JWT`
 - [POST]: `/auth/jwt/login`: return `Bearer Token JWT` if username and password match
 
-Private (requires JWT):
+Private (require `JWT` and `Secret-Key`):
 
 - [GET]: `/auth/user/`: list of users
 - [GET]: `/auth/user/{id}`: return user's detail (balance and transactions) given his `id`
@@ -58,18 +62,17 @@ Private (requires JWT):
 
 ### Game Service
 
-Available at port `8081`
+- Available at port `8081`
+- Swagger: http://localhost:8081/swagger-ui/index.html#/
 
-Private (can be requested only by Application Service):
+#### API
+
+Private (require `Secret-Key` ):
 
 - [GET]: `/game/match/`: returns the list of all playable matches
 - [GET]: `/game/match/{id}`: returns the detail of a match given `id`
 - [GET]: `/game/team/{id}`: returns the history of a team's matches given `id`
 - [GET]: `/game/team/`: returns the list of all teams
-
-
-Private (requires JWT):
-
 - [POST]: `/game/team/`: create a team given a name
 
 
@@ -77,9 +80,12 @@ Private (requires JWT):
 
 ### Session service
 
-Available at port `8084`
+- Available at port `8084`
+- Swagger: http://localhost:8084/swagger-ui/index.html#/
 
-Private (can be requested only by Application Service):
+#### API
+
+Private (require `Secret-Key`):
 
 - [POST]: `/session/`: save a user's session (update and create)
 - [GET]: `/session/{sessionId}`: returns a user's session given the session's `id`
