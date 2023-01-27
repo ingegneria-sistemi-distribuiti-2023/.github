@@ -22,7 +22,6 @@ Public:
 - [GET]: `/app/public/match/{id}`: detail of a match, given `id`
 - [GET]: `/app/public/team/{id}`: history of a team's matches, given team's `id`
 
-
 Private (requires JWT ):
 
 - [POST]: `/app/gamble/add`: add a match to an existing bet or create an empty one (call session-service using `RestTemplate`)
@@ -32,9 +31,10 @@ Private (requires JWT ):
 - [GET]: `/app/placedbet/{id}`: return bet's detail given `id`
 - [GET]: `/app/placedbet/user/{id}`: list of all bet played by user given `id`
 
-
 #### Unit tests
 TODO (?)
+
+#### Application database `gamedb:53306`
 
 ### Authentication service
 
@@ -45,12 +45,16 @@ Private (require only `Secret-Key`)
 - [POST]: `/auth/jwt/register`: create a user and return his `Bearer Token JWT`
 - [POST]: `/auth/jwt/login`: return `Bearer Token JWT` if username and password match
 
-Private (requires administrator role):
+Private (requires JWT / administrator role):
 
 - [GET]: `/auth/user/`: list of users
 - [GET]: `/auth/user/{id}`: return user's detail (balance and transactions) given his `id`
-- [POST]: `/auth/transaction/deposit`: allows to recharge a user's balance 
+- [POST]: `/auth/jwt/validate`:  validate a JWT token given a `username` and the `token` itself
+- [POST]: `/auth/transaction/deposit`: allows to recharge a user's balance
 - [POST]: `/auth/transaction/withdraw`: allows to withdraw from user's balance
+- [POST]: `/auth/user/enable/{id}`: allows to enable a user account
+- [POST]: `/auth/user/disable/{id}`: allows to disable a user account
+
 
 #### Unit tests
 
@@ -62,23 +66,21 @@ TODO (?)
 
 Available at port `8081`
 
-Private (possono essere chiamate solo da Application Service):
+Private (can be requested only by Application Service):
 
-- [GET]: `/match/`: ritorna la lista di partite giocabili
-- [GET]: `/match/{id}`: ritorna dettaglio della partita
-- [GET]: `/game/team/{id}`: ritorna storico partite dato l'ID della squadra
+- [GET]: `/game/match/`: returns the list of all playable matches
+- [GET]: `/game/match/{id}`: returns the detail of a match given `id`
+- [GET]: `/game/team/{id}`: returns the history of a team's matches given `id`
+- [GET]: `/game/team/`: returns the list of all teams
+
 
 Private (requires JWT / administrator role):
 
-- [POST]: `/game/team/`: aggiunge una team
-- [POST]: `/game/team/disable`: disabilita un team
-
+- [POST]: `/game/team/`: create a team given a name
 
 #### Unit tests
 
-- Creazione di un team
-- Lista partite giocabili
-- Sanity check per generazione partite
+TODO (?)
 
 #### Game database `gamedb:13306`
 
@@ -86,19 +88,20 @@ Private (requires JWT / administrator role):
 
 Available at port `8084`
 
-Private (possono essere chiamate solo da Application Service):
+Private (can be requested only by Application Service):
 
-- [POST]: `/session/`: aggiorna la sessione di un utente (aggiornamento e creazione)
-- [GET]: `/session/{sessionId}`: ritorna la sessione di un utente dato l'Id della sessione
+- [POST]: `/session/`: save a user's session (update and create)
+- [GET]: `/session/{sessionId}`: returns a user's session given the session's `id`
 
 #### Session database `sessiondb:43306`
 
 ## Argomenti trattati
 
 - Remote authenticator (Role based)
-- Redis per gestione della sessione
+- Redis for session management
 - Remote facade
 - Data Transfer Object
-- Circuit breaker (application-service)
+- Circuit breaker
+- Retry Pattern
 - CI (GitHub)
-- Docker
+- Docker & Docker Compose
