@@ -88,7 +88,7 @@ Private (can be requested only by Application Service):
 
 ## Used technologies and patterns
 
-- Remote authenticator (Role based)
+- Remote authenticator
 - Redis (for session management)
 - Remote facade
 - Data Transfer Object
