@@ -6,7 +6,7 @@ Some logic functions have not been implemented, since considered not necessary t
 
 Each database and server will have a dedicated repository within this organization. The report, in Italian, is available [here](https://github.com/ingegneria-sistemi-distribuiti-2023/.github/blob/main/report.pdf).
 
-## Microservizi:
+## Microservices:
 
 ### Application service
 
@@ -31,10 +31,8 @@ Private (requires JWT ):
 - [GET]: `/app/placedbet/{id}`: return bet's detail given `id`
 - [GET]: `/app/placedbet/user/{id}`: list of all bet played by user given `id`
 
-#### Unit tests
-TODO (?)
 
-#### Application database `gamedb:53306`
+#### Application database `applicationdb:53306`
 
 ### Authentication service
 
@@ -45,7 +43,7 @@ Private (require only `Secret-Key`)
 - [POST]: `/auth/jwt/register`: create a user and return his `Bearer Token JWT`
 - [POST]: `/auth/jwt/login`: return `Bearer Token JWT` if username and password match
 
-Private (requires JWT / administrator role):
+Private (requires JWT):
 
 - [GET]: `/auth/user/`: list of users
 - [GET]: `/auth/user/{id}`: return user's detail (balance and transactions) given his `id`
@@ -55,10 +53,6 @@ Private (requires JWT / administrator role):
 - [POST]: `/auth/user/enable/{id}`: allows to enable a user account
 - [POST]: `/auth/user/disable/{id}`: allows to disable a user account
 
-
-#### Unit tests
-
-TODO (?)
 
 #### Authentication database `authdb:23306`
 
@@ -74,13 +68,10 @@ Private (can be requested only by Application Service):
 - [GET]: `/game/team/`: returns the list of all teams
 
 
-Private (requires JWT / administrator role):
+Private (requires JWT):
 
 - [POST]: `/game/team/`: create a team given a name
 
-#### Unit tests
-
-TODO (?)
 
 #### Game database `gamedb:13306`
 
@@ -95,13 +86,13 @@ Private (can be requested only by Application Service):
 
 #### Session database `sessiondb:43306`
 
-## Argomenti trattati
+## Used technologies and patterns
 
 - Remote authenticator (Role based)
-- Redis for session management
+- Redis (for session management)
 - Remote facade
 - Data Transfer Object
 - Circuit breaker
 - Retry Pattern
-- CI (GitHub)
+- Continuos Integration (GitHub)
 - Docker & Docker Compose
