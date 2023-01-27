@@ -23,15 +23,14 @@ Public:
 - [GET]: `/app/public/match/{id}`: detail of a match, given `id`
 - [GET]: `/app/public/team/{id}`: history of a team's matches, given team's `id`
 
-Private (requires JWT ):
+Private (requires `Bearer token` and `Username` in Header ):
 
 - [POST]: `/app/gamble/add`: add a match to an existing bet or create an empty one (call session-service using `RestTemplate`)
 - [POST]: `/app/gamble/remove`: remove a match given a `betId` (call session-service using `RestTemplate`)
 - [POST]: `/app/gamble/place-bet`: make a request to an existing placing bet, if user has not sufficient balance returns an error (call session-service, authentication service api using `RestTemplate`)
-- [POST]: `/app/user/deposit`: recharge a user's balance
 - [GET]: `/app/placedbet/{id}`: return bet's detail given `id`
 - [GET]: `/app/placedbet/user/{id}`: list of all bet played by user given `id`
-
+- [POST]: `/app/user/deposit`: recharge a user's balance
 
 #### Application database `applicationdb:53306`
 
